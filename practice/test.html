@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script>
+      jQuery.each([ "put", "delete" ], function(i, method) {
+        jQuery[method] = function(url, data, callback, type) {
+            if (jQuery.isFunction(data)) {
+                type = type || callback;
+                callback = data;
+                data = undefined;
+            }
+            return jQuery.ajax({
+                url : url,
+                type : method,
+                dataType : type,
+                data : data,
+                success : callback
+            });
+        };
+      });
+      $(document).ready(function(){
+        $("#sea1_led").change(function(){
+          if($("#sea1_led").is(":checked")){
+            $.put("http://localhost:3000/onoff2", {
+              id: 1,
+              on_off: 1
+            },function(jqXHR) {
+              alert("ON");
+            }, 'json');
+          }else{
+            $.put("http://localhost:3000/onoff2", {
+              id: 1,
+              on_off: 0
+            },function(jqXHR) {
+              alert("OFF");
+            }, 'json');
+          }
+        });
+      });
+    </script>
+    <style media="screen">
+
+    </style>
+    <title>test</title>
+  </head>
+  <body>
+    <input type="checkbox" id="sea1_led">
+  </body>
+</html>
